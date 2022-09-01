@@ -1,0 +1,7 @@
+@startuml
+
+(account_create_event) -> [Account.created]
+
+
+
+@enduml
