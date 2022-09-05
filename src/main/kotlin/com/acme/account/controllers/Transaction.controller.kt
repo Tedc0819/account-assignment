@@ -17,17 +17,17 @@ import com.acme.account.exceptions.*
 import java.util.UUID
 
 @RestController
-@RequestMapping("/accounts")
-class AccountResource() {
+@RequestMapping("/transactions")
+class TransactionResource() {
 	@Autowired
 	private lateinit var accountService: AccountService
 
-	@GetMapping("/{accountNumber}")
-	fun index(@RequestParam accountNumber:Long): GetAccountResponseDto {
+	@PostMapping("")
+	fun index(@RequestBody dto:CreateTransactionRequestDto): CreateTransactionResponseDto {
     try {
-      val account = this.accountService.getAccount(accountNumber)
+      val transaction = this.accountService.transfer(dto.sourceId, dto.destinationId, dto.amount)
 
-      return GetAccountResponseDto(account.accountNumber, account.balance) 
+      return CreateTransactionResponseDto(transactionId = transaction.id) 
     } catch (e: Exception) {
       // FIXME: more precise http status code 
       if (e is NotFoundException) {

@@ -4,6 +4,6 @@ import java.math.BigDecimal
 import java.util.UUID
 
 data class GetAccountResponseDto(
-  val accountNumber: String,
+  val accountNumber: Long,
   val balance: BigDecimal,
 )

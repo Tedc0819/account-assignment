@@ -7,15 +7,28 @@ import javax.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 
+class AccountAmountLessThanZeroException: Exception() 
+
 @Entity
 data class Account (
-  @Id val accountNumber: String, 
-  var balance: BigDecimal = BigDecimal(0.0),
-/* 
-  @CreatedDate
-  private val createdAt: Instant,
+  // FIXME: need to have createdAt and updatedAt 
+  @Id @GeneratedValue val accountNumber: Long = 0, 
+  var balance: BigDecimal,
+) {
+  fun transfer(amount: BigDecimal): Account {
+    if (this.balance - amount < BigDecimal(0.0)) {
+      throw AccountAmountLessThanZeroException() 
+    }
 
-  @LastModifiedDate
-  private val updatedAt: Instant
-*/
-)
+    this.balance = this.balance - amount
+
+    return this
+  }
+
+  fun receiveTransfer(amount: BigDecimal): Account {
+    this.balance = this.balance + amount
+
+    return this
+  }
+}
+

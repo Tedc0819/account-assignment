@@ -1,3 +1,3 @@
 package com.acme.account.exceptions
 
-class NotFoundException() : Exception() {}
+class NotFoundException(message: String) : Exception(message) {}
